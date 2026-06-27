@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en" data-font-size="medium">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DataForge - Level Player</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="./css/base.css?v=20260613a">
+<link rel="stylesheet" href="./css/layout.css?v=20260613a">
+<link rel="stylesheet" href="./css/components.css?v=20260626e">
+<link rel="stylesheet" href="./css/widgets.css?v=20260616c">
+<link rel="stylesheet" href="./css/editor.css?v=20260613a">
+<link rel="stylesheet" href="./css/worldmap.css?v=20260613a">
+<link rel="stylesheet" href="./css/animations.css?v=20260613a">
+<link rel="stylesheet" href="./css/worlds/world1.css?v=20260613a">
+<link rel="stylesheet" href="./css/worlds/world2.css?v=20260613a">
+<link rel="stylesheet" href="./css/worlds/world3.css?v=20260621d">
+<link rel="stylesheet" href="./css/worlds/world4.css?v=20260622a">
+<link rel="stylesheet" href="./css/worlds/world5.css?v=20260622d">
+<link rel="stylesheet" href="./css/worlds/world6.css?v=20260626e">
+</head>
+<body class="app-shell" data-screen="map">
+  <div class="xp-bar" aria-hidden="true">
+    <div class="xp-bar-fill" style="width:0%"></div>
+  </div>
+  <div class="xp-bar-label">Data Intern - 0 XP</div>
+
+  <header class="app-header">
+    <div class="app-header__bar">
+      <div class="app-brand">
+        <a class="app-brand__mark" href="#/" aria-label="Return to world map">DF</a>
+        <div>
+          <p class="eyebrow">DataForge</p>
+          <p class="app-header__subtext" id="app-progress-copy">0 / 35 levels complete</p>
+        </div>
+      </div>
+
+      <div class="app-header__center">
+        <p class="app-header__breadcrumb" id="level-breadcrumb">Level Player</p>
+        <p class="app-header__subtext" id="app-subtext">
+          The level shell is ready. World modules can plug into this frame as they are built.
+        </p>
+      </div>
+
+      <div class="app-header__status">
+        <div class="status-box">
+          <span class="text-muted">Score</span>
+          <span class="hud-score">000000</span>
+        </div>
+        <div class="status-box">
+          <span class="text-muted">Lives</span>
+          <span class="hud-lives" aria-label="Lives">
+            <span class="hud-life-icon" aria-hidden="true"></span>
+            <span class="hud-life-icon" aria-hidden="true"></span>
+            <span class="hud-life-icon" aria-hidden="true"></span>
+          </span>
+        </div>
+        <div class="status-box">
+          <span class="text-muted">Hints</span>
+          <span class="hud-hints-remaining">2 hints left</span>
+        </div>
+        <span class="hud-streak hud-streak--hidden" aria-live="polite"></span>
+        <button class="btn btn--subtle btn--sm" type="button" data-route="settings">Settings</button>
+      </div>
+    </div>
+  </header>
+
+  <div id="screen-map" class="screen">
+    <main class="screen-shell screen-shell--map">
+      <div id="main-content" class="screen-section"></div>
+    </main>
+  </div>
+
+  <div id="screen-level" class="screen" hidden>
+    <main class="screen-shell">
+      <div id="level-content" class="screen-section"></div>
+    </main>
+  </div>
+
+  <div id="toast-root" class="hud-toast-container" aria-live="polite" aria-atomic="true"></div>
+  <div id="overlay-root"></div>
+
+  <aside id="settings-panel" hidden aria-hidden="true" aria-labelledby="settings-title">
+    <div>
+      <p class="eyebrow">Preferences</p>
+      <h2 id="settings-title" class="settings-title">Settings</h2>
+      <p class="text-muted">Tune the shell once and keep the same feel across every world.</p>
+    </div>
+
+    <section class="settings-section">
+      <h3 class="settings-section-title">Language</h3>
+
+      <label class="field">
+        <span class="field-label">Application Language</span>
+        <select id="setting-language" class="select">
+          <option value="fr">Francais</option>
+          <option value="en">English</option>
+        </select>
+      </label>
+    </section>
+
+    <section class="settings-section">
+      <h3 class="settings-section-title">Audio</h3>
+
+      <label class="checkbox-wrapper">
+        <input id="setting-sound" type="checkbox">
+        <span>Enable sound effects</span>
+      </label>
+
+      <label class="field">
+        <span class="field-label">Music Volume</span>
+        <input id="setting-music" class="range-slider" type="range" min="0" max="1" step="0.05">
+      </label>
+    </section>
+
+    <section class="settings-section">
+      <h3 class="settings-section-title">Accessibility</h3>
+
+      <label class="field">
+        <span class="field-label">Font Size</span>
+        <select id="setting-fontsize" class="select">
+          <option value="small">Small</option>
+          <option value="medium">Medium</option>
+          <option value="large">Large</option>
+        </select>
+      </label>
+
+      <label class="checkbox-wrapper">
+        <input id="setting-colorblind" type="checkbox">
+        <span>Color-blind mode</span>
+      </label>
+
+      <label class="checkbox-wrapper">
+        <input id="setting-hint-auto" type="checkbox">
+        <span>Auto-show hint affordances</span>
+      </label>
+    </section>
+
+    <section class="settings-section">
+      <h3 class="settings-section-title">Progress</h3>
+      <p class="settings-copy text-muted">
+        Start over from World 1. This clears campaign progress, unlocked worlds, stars, score, and XP, but keeps your settings.
+      </p>
+      <button id="settings-reset-progress" class="btn btn--danger" type="button">Reset Game Progress</button>
+    </section>
+
+    <div class="action-row">
+      <button id="settings-close" class="btn btn--subtle" type="button">Close</button>
+      <button id="settings-save" class="btn btn--primary" type="button">Save Settings</button>
+    </div>
+  </aside>
+
+  <div id="sr-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+  <script>
+    window.__DATAFORGE_MODULE_VERSION__ = '20260626a';
+  </script>
+  <script type="module" src="./js/main.js?v=20260622c"></script>
+</body>
+</html>

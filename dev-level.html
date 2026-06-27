@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DataForge Dev Level Harness</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="./css/base.css?v=20260613a">
+<link rel="stylesheet" href="./css/components.css?v=20260626e">
+<link rel="stylesheet" href="./css/layout.css?v=20260613a">
+<link rel="stylesheet" href="./css/animations.css?v=20260613a">
+<link rel="stylesheet" href="./css/widgets.css?v=20260616c">
+<link rel="stylesheet" href="./css/editor.css?v=20260613a">
+<link rel="stylesheet" href="./css/worlds/world1.css?v=20260613a">
+<link rel="stylesheet" href="./css/worlds/world2.css?v=20260613a">
+<link rel="stylesheet" href="./css/worlds/world3.css?v=20260621d">
+<link rel="stylesheet" href="./css/worlds/world4.css?v=20260622a">
+<link rel="stylesheet" href="./css/worlds/world5.css?v=20260622d">
+<link rel="stylesheet" href="./css/worlds/world6.css?v=20260626e">
+</head>
+<body class="app-shell">
+  <div class="screen-shell screen-shell--level">
+    <header class="app-topbar">
+      <div class="app-topbar__brand">
+        <a class="app-topbar__logo" href="./index.html">DF</a>
+        <div class="app-topbar__title-group">
+          <p class="app-topbar__eyebrow">Dev Harness</p>
+          <p class="app-topbar__title" id="dev-harness-title">Loading level...</p>
+          <p class="app-topbar__subtitle" id="dev-harness-subtitle">Standalone level preview</p>
+        </div>
+      </div>
+
+      <div class="app-topbar__status">
+        <span class="status-box" id="dev-harness-route">W?-L?</span>
+        <span class="status-box" id="dev-harness-correct">Correct: 0</span>
+        <span class="status-box" id="dev-harness-mistakes">Mistakes: 0</span>
+        <span class="status-box" id="dev-harness-hints">Hints: 0 / 2</span>
+        <span class="status-box" id="dev-harness-complete">Pending</span>
+      </div>
+    </header>
+
+    <main class="app-main">
+      <section class="screen-panel" style="padding: var(--space-6);">
+        <div id="dev-harness-root"></div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    window.__DATAFORGE_MODULE_VERSION__ = '20260626a';
+  </script>
+  <script type="module" src="./js/dev-level.js?v=20260622c"></script>
+</body>
+</html>
