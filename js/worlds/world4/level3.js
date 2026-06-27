@@ -99,6 +99,15 @@ function pluralize(value, singular, plural = `${singular}s`) {
   return value === 1 ? singular : plural;
 }
 
+function shuffleCopy(items) {
+  const shuffled = [...items];
+  for (let index = shuffled.length - 1; index > 0; index--) {
+    const swapIndex = Math.floor(Math.random() * (index + 1));
+    [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
+  }
+  return shuffled;
+}
+
 function renderTally(count) {
   return Array.from({ length: count }, () => '<span class="w4-frequency-tally__mark" aria-hidden="true"></span>').join('');
 }
@@ -138,6 +147,7 @@ export default class World4Level3 {
     this._countedRows = 0;
     this._counts = Object.fromEntries(CITY_ORDER.map(city => [city, 0]));
     this._selectedValues = Array.from({ length: TOTAL_ROWS }, () => '');
+    this._frequencyOptionOrder = shuffleCopy(FREQUENCY_OPTIONS);
     this._rowStates = Array.from({ length: TOTAL_ROWS }, () => 'pending');
     this._awardedStepIds = new Set();
     this._collisionShown = false;
@@ -264,7 +274,7 @@ export default class World4Level3 {
                       <label class="sr-only" for="w4-l3-select-${index}">Frequency for ${escapeHtml(row.City)} row ${index + 1}</label>
                       <select class="w4-frequency-select" id="w4-l3-select-${index}" data-encoded-select="${index}" disabled>
                         <option value="">Select frequency</option>
-                        ${FREQUENCY_OPTIONS.map(option => `
+                        ${this._frequencyOptionOrder.map(option => `
                           <option value="${escapeHtml(option.value)}">${escapeHtml(`${option.value} (${option.count}/${TOTAL_ROWS})`)}</option>
                         `).join('')}
                       </select>

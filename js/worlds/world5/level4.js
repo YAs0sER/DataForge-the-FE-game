@@ -155,6 +155,15 @@ function formatLogValue(value, digits = 2) {
   return Number(value.toFixed(digits)).toString();
 }
 
+function shuffleCopy(items) {
+  const shuffled = [...items];
+  for (let index = shuffled.length - 1; index > 0; index--) {
+    const swapIndex = Math.floor(Math.random() * (index + 1));
+    [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
+  }
+  return shuffled;
+}
+
 function transformOptionById(optionId) {
   return TRANSFORM_OPTIONS.find(option => option.id === optionId) ?? null;
 }
@@ -232,6 +241,8 @@ export default class World5Level4 {
     this._completed = false;
     this._mistakes = 0;
     this._summary = null;
+    this._transformOrder = shuffleCopy(TRANSFORM_OPTIONS);
+    this._insightOrder = shuffleCopy(INSIGHT_OPTIONS);
     this._ui = {};
   }
 
@@ -326,7 +337,7 @@ export default class World5Level4 {
               </div>
 
               <div class="w5-log-choice-grid" id="w5-l4-transform-grid">
-                ${TRANSFORM_OPTIONS.map(option => `
+                ${this._transformOrder.map(option => `
                   <button class="w5-log-choice" type="button" data-transform-choice="${option.id}" data-choice-state="locked">
                     <span class="w5-log-choice__eyebrow">Transform</span>
                     <strong class="w5-log-choice__title">${escapeHtml(option.label)}</strong>
@@ -404,7 +415,7 @@ export default class World5Level4 {
               </div>
 
               <div class="w5-log-choice-grid w5-log-choice-grid--insight" id="w5-l4-insight-grid">
-                ${INSIGHT_OPTIONS.map(option => `
+                ${this._insightOrder.map(option => `
                   <button class="w5-log-choice" type="button" data-insight-choice="${option.id}" data-choice-state="locked">
                     <span class="w5-log-choice__eyebrow">Insight</span>
                     <strong class="w5-log-choice__title">${escapeHtml(option.label)}</strong>
@@ -773,6 +784,8 @@ export default class World5Level4 {
     this._completed = false;
     this._mistakes = 0;
     this._summary = null;
+    this._transformOrder = shuffleCopy(TRANSFORM_OPTIONS);
+    this._insightOrder = shuffleCopy(INSIGHT_OPTIONS);
 
     if (this._ui.hintBox) {
       this._ui.hintBox.hidden = true;

@@ -326,6 +326,15 @@ function choiceById(stage, choiceId) {
   return stage?.choices.find(choice => choice.id === choiceId) ?? null;
 }
 
+function shuffleCopy(items) {
+  const shuffled = [...items];
+  for (let index = shuffled.length - 1; index > 0; index--) {
+    const swapIndex = Math.floor(Math.random() * (index + 1));
+    [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
+  }
+  return shuffled;
+}
+
 function ageValueForRow(df, rowId) {
   const row = df.toRows().find(entry => entry[ID_COL] === rowId);
   return row?.[AGE_COL];
@@ -547,6 +556,7 @@ export default class World6Level3 {
     this._summary = null;
     this._pendingAdvance = false;
     this._advanceTimer = null;
+    this._choiceOrders = new Map(STAGES.map(stage => [stage.id, shuffleCopy(stage.choices)]));
     this._ui = {};
   }
 
@@ -880,7 +890,7 @@ export default class World6Level3 {
         </div>
 
         <div class="w6-pipeline-choice-grid">
-          ${stage.choices.map(choice => `
+          ${(this._choiceOrders.get(stage.id) ?? stage.choices).map(choice => `
             <button
               class="w6-pipeline-choice dd-draggable"
               type="button"
@@ -1036,6 +1046,7 @@ export default class World6Level3 {
     this._completed = false;
     this._summary = null;
     this._pendingAdvance = false;
+    this._choiceOrders = new Map(STAGES.map(stage => [stage.id, shuffleCopy(stage.choices)]));
 
     if (this._ui.hintBox) {
       this._ui.hintBox.hidden = true;

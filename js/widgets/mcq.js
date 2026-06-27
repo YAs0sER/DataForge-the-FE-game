@@ -22,6 +22,15 @@ function esc(text) {
     .replace(/'/g, '&#39;');
 }
 
+function shuffleCopy(items) {
+  const shuffled = [...items];
+  for (let index = shuffled.length - 1; index > 0; index--) {
+    const swapIndex = Math.floor(Math.random() * (index + 1));
+    [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
+  }
+  return shuffled;
+}
+
 export class MCQWidget {
   constructor(container, options = {}) {
     if (!(container instanceof HTMLElement)) {
@@ -125,12 +134,14 @@ export class MCQWidget {
   }
 
   _renderSingleQuestion(question) {
+    const options = shuffleCopy(question.options);
+
     this._stageEl.innerHTML = `
       <article class="mcq-question">
         <p class="eyebrow">Question ${this._index + 1} / ${this._questions.length}</p>
         <h3 class="panel-title">${esc(question.prompt)}</h3>
         <div class="mcq-options" role="radiogroup" aria-label="${esc(question.prompt)}">
-          ${question.options.map((option, optionIndex) => `
+          ${options.map((option, optionIndex) => `
             <button class="mcq-option" data-option-id="${esc(option.id)}" type="button">
               <span class="mcq-option__key">${String.fromCharCode(65 + optionIndex)}</span>
               <span>${esc(option.text)}</span>
@@ -165,7 +176,7 @@ export class MCQWidget {
               <span class="mcq-match-row__label">${esc(pair.prompt)}</span>
               <select class="input mcq-match-select" id="pair-${esc(pair.id)}" data-pair-id="${esc(pair.id)}">
                 <option value="">Choose a match</option>
-                ${pair.options.map(option => `<option value="${esc(option)}">${esc(option)}</option>`).join('')}
+                ${shuffleCopy(pair.options).map(option => `<option value="${esc(option)}">${esc(option)}</option>`).join('')}
               </select>
             </label>
           `).join('')}

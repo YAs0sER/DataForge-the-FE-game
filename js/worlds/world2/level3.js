@@ -137,6 +137,15 @@ function escapeHtml(value) {
     .replace(/'/g, '&#39;');
 }
 
+function shuffleCopy(items) {
+  const shuffled = [...items];
+  for (let index = shuffled.length - 1; index > 0; index--) {
+    const swapIndex = Math.floor(Math.random() * (index + 1));
+    [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
+  }
+  return shuffled;
+}
+
 function scenarioAt(index) {
   return SCENARIOS[index] ?? null;
 }
@@ -161,6 +170,7 @@ export default class World2Level3 {
     this._revealed = false;
     this._completed = false;
     this._isTransitioning = false;
+    this._strategyOrder = shuffleCopy(Object.values(STRATEGIES));
     this._attempts = new Map();
     this._results = new Map();
     this._ui = {};
@@ -446,7 +456,7 @@ export default class World2Level3 {
 
     this._ui.controls.innerHTML = `
       <div class="w2-strategy-choice-grid" role="group" aria-label="Imputation strategies">
-        ${Object.values(STRATEGIES).map(strategy => {
+        ${this._strategyOrder.map(strategy => {
           const selected = this._selectedStrategy === strategy.id;
           const wrong = !selected && this._lastWrongStrategy === strategy.id;
 
@@ -625,6 +635,7 @@ export default class World2Level3 {
     this._revealed = false;
     this._completed = false;
     this._isTransitioning = false;
+    this._strategyOrder = shuffleCopy(Object.values(STRATEGIES));
     this._attempts.clear();
     this._results.clear();
 

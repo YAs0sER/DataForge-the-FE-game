@@ -98,6 +98,15 @@ function escapeHtml(value) {
     .replace(/'/g, '&#39;');
 }
 
+function shuffleCopy(items) {
+  const shuffled = [...items];
+  for (let index = shuffled.length - 1; index > 0; index--) {
+    const swapIndex = Math.floor(Math.random() * (index + 1));
+    [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
+  }
+  return shuffled;
+}
+
 function scenarioById(scenarioId) {
   return SCENARIOS.find(scenario => scenario.id === scenarioId) ?? null;
 }
@@ -160,6 +169,7 @@ export default class World6Level2 {
     this._summary = null;
     this._completed = false;
     this._lastSignal = 'neutral';
+    this._verdictOrder = shuffleCopy(Object.entries(VERDICTS));
     this._ui = {};
   }
 
@@ -304,7 +314,7 @@ export default class World6Level2 {
                   <pre class="w6-leak-card__code"><code>${escapeHtml(scenario.snippet)}</code></pre>
 
                   <div class="w6-leak-card__actions">
-                    ${Object.entries(VERDICTS).map(([verdictId, verdict]) => `
+                    ${this._verdictOrder.map(([verdictId, verdict]) => `
                       <button
                         class="btn btn--subtle w6-leak-choice"
                         type="button"
