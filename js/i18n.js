@@ -2,7 +2,7 @@
 
 const SUPPORTED_LANGUAGES = new Set(['fr', 'en']);
 const translatedValues = new WeakMap();
-let activeLanguage = 'fr';
+let activeLanguage = 'en';
 let observer = null;
 
 const EXACT_FR_SOURCE = {
