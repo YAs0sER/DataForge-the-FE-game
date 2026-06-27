@@ -4,7 +4,7 @@ DataForge is a browser-based educational game that teaches feature engineering t
 
 ## Live Demo
 
-`https://your-live-demo-link-here](https://yas0ser.github.io/DataForge-the-FE-game/#/`
+`https://yas0ser.github.io/DataForge-the-FE-game/#/`
 
 ## Overview
 
